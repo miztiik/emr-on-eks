@@ -1,0 +1,190 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: miztiik-automation-ns
+  labels:
+    app: shopfront
+    role: webfront
+    project: service-mesh-in-eks
+    istio-injection: enabled
+    owner: miztiik-automation
+    compute_provider: on_demand
+    dept: engineering
+    team: red-shirts
+  annotations:
+    contact: github.com/miztiik
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shopfront-v1
+  namespace: miztiik-automation-ns
+  labels:
+    app: shopfront
+    role: web
+    project: service-mesh-in-eks
+    owner: miztiik-automation
+    compute_provider: on_demand
+    dept: engineering
+    team: red-shirts
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: shopfront
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: shopfront
+        role: web
+        version: v1
+        project: service-mesh-in-eks
+        owner: miztiik-automation
+        compute_provider: on_demand
+        dept: engineering
+        team: red-shirts
+    spec:
+      containers:
+      - name: v1
+        image: httpd:latest
+        command: ["sh", "-c", "echo $HOSTNAME':v1' > /usr/local/apache2/htdocs/index.html;/usr/local/apache2/bin/apachectl -DFOREGROUND;"]
+        imagePullPolicy: IfNotPresent
+        ports:
+          - name: http-web
+            containerPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shopfront-v2
+  namespace: miztiik-automation-ns
+  labels:
+    app: shopfront
+    role: web
+    project: service-mesh-in-eks
+    owner: miztiik-automation
+    compute_provider: on_demand
+    dept: engineering
+    team: red-shirts
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: shopfront
+      version: v2
+  template:
+    metadata:
+      labels:
+        app: shopfront
+        role: web
+        version: v2
+        project: service-mesh-in-eks
+        owner: miztiik-automation
+        compute_provider: on_demand
+        dept: engineering
+        team: red-shirts
+    spec:
+      containers:
+      - name: v2
+        image: httpd:latest
+        command: ["sh", "-c", "echo $HOSTNAME':v2' > /usr/local/apache2/htdocs/index.html;/usr/local/apache2/bin/apachectl -DFOREGROUND;"]
+        imagePullPolicy: IfNotPresent
+        ports:
+          - name: http-web
+            containerPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shopfront-v3
+  namespace: miztiik-automation-ns
+  labels:
+    app: shopfront
+    role: web
+    project: service-mesh-in-eks
+    owner: miztiik-automation
+    compute_provider: on_demand
+    dept: engineering
+    team: red-shirts
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: shopfront
+      version: v3
+  template:
+    metadata:
+      labels:
+        app: shopfront
+        role: web
+        version: v3
+        project: service-mesh-in-eks
+        owner: miztiik-automation
+        compute_provider: on_demand
+        dept: engineering
+        team: red-shirts
+    spec:
+      containers:
+      - name: v3
+        image: httpd:latest
+        command: ["sh", "-c", "echo $HOSTNAME':v3' > /usr/local/apache2/htdocs/index.html;/usr/local/apache2/bin/apachectl -DFOREGROUND;"]
+        imagePullPolicy: IfNotPresent
+        ports:
+          - name: http-web
+            containerPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shopfront-v4
+  namespace: miztiik-automation-ns
+  labels:
+    app: shopfront
+    role: web
+    project: service-mesh-in-eks
+    owner: miztiik-automation
+    compute_provider: on_demand
+    dept: engineering
+    team: red-shirts
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: shopfront
+      version: v4
+  template:
+    metadata:
+      labels:
+        app: shopfront
+        role: web
+        version: v4
+        project: service-mesh-in-eks
+        owner: miztiik-automation
+        compute_provider: on_demand
+        dept: engineering
+        team: red-shirts
+    spec:
+      containers:
+      - name: v4
+        image: nginx
+        command: ["sh", "-c", "echo $HOSTNAME':v4' > /usr/share/nginx/html/index.html;nginx -g 'daemon off;';"]
+        imagePullPolicy: IfNotPresent
+        ports:
+          - name: http-web
+            containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: shopfront-svc
+  namespace: miztiik-automation-ns
+spec:
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+    name: http-web
+  selector:
+    app: shopfront

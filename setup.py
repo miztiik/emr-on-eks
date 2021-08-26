@@ -9,17 +9,17 @@ setuptools.setup(
     name="emr_on_eks",
     version="0.0.1",
 
-    description="An empty CDK Python app",
+    description="emr-on-eks",
     long_description=long_description,
     long_description_content_type="text/markdown",
 
     author="author",
 
-    package_dir={"": "emr_on_eks"},
-    packages=setuptools.find_packages(where="emr_on_eks"),
+    package_dir={"": "stacks"},
+    packages=setuptools.find_packages(where="stacks"),
 
     install_requires=[
-        "aws-cdk.core==1.116.0",
+        "aws-cdk.core>=1.118.0",
     ],
 
     python_requires=">=3.6",

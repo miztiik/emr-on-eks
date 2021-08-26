@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shopfront
+  namespace: miztiik-automation-ns
+  labels:
+    app: shopfront
+    role: webfront
+    project: service-mesh-in-eks
+    owner: miztiik-automation
+    compute_provider: on_demand
+    dept: engineering
+    team: red-shirts
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      owner: miztiik-automation
+      role: webfront
+  template:
+    metadata:
+      labels:
+        app: shopfront
+        role: webfront
+        project: service-mesh-in-eks
+        owner: miztiik-automation
+        compute_provider: on_demand
+        dept: engineering
+        team: red-shirts
+    spec:
+      containers:
+        - name: shopfront-httpd
+          image: httpd:latest
+          command: ["sh", "-c", "echo 'Akane' > /usr/local/apache2/htdocs/index.html;/usr/local/apache2/bin/apachectl -DFOREGROUND;"]
+          ports:
+            - name: http
+              containerPort: 80

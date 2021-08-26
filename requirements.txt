@@ -1,1 +1,8 @@
 -e .
+aws_cdk.aws_logs
+aws_cdk.aws_iam
+aws_cdk.aws_eks
+aws_cdk.aws_ec2
+aws_cdk.aws_emrcontainers
+PyYAML
+requests

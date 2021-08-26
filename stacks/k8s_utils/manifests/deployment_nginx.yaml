@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shopfront-nginx-deploy
+  namespace: unsecure-ns
+  labels:
+    app: shopfront-nginx
+    role: webfront
+    project: service-mesh-in-eks
+    owner: miztiik-automation
+    compute_provider: on_demand
+    dept: engineering
+    team: red-shirts
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      owner: miztiik-automation
+      role: webfront
+  template:
+    metadata:
+      labels:
+        app: shopfront-nginx
+        role: webfront
+        project: service-mesh-in-eks
+        owner: miztiik-automation
+        compute_provider: on_demand
+        dept: engineering
+        team: red-shirts
+    spec:
+      containers:
+      - name: nginx-container
+        image: nginx
+        command: ["sh", "-c", "echo $HOSTNAME'-nginx' > /usr/share/nginx/html/index.html;nginx -g 'daemon off;';"]
+        resources:
+          requests:
+            cpu: "250m"
+            memory: "64Mi"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+        ports:
+          - name: http
+            containerPort: 80
+
